@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yes Smile Barcelona | Clínica Dental</title>
+  <meta name="description" content="Yes Smile Barcelona, tu clínica dental de confianza. Implantes, ortodoncia, estética dental y más. Pide tu cita hoy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --mint:    #00b09b;
+      --mint2:   #00c4a7;
+      --teal:    #007d6e;
+      --dark:    #0d2b27;
+      --dark2:   #163530;
+      --white:   #ffffff;
+      --offwhite:#f4fbfa;
+      --cream:   #eef7f5;
+      --text:    #1a3532;
+      --muted:   #5a8080;
+      --border:  #cde8e4;
+      --yellow:  #fbbf24;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 2.5rem;
+      transition: background 0.4s, padding 0.4s, box-shadow 0.4s;
+    }
+    #navbar.scrolled {
+      background: var(--dark);
+      padding: 0.9rem 2.5rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem; color: var(--white); text-decoration: none;
+      display: flex; align-items: center; gap: 0.5rem; line-height: 1;
+    }
+    .nav-logo .logo-icon {
+      width: 34px; height: 34px; background: var(--mint); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .nav-logo span { display: block; font-size: 0.55rem; font-family: 'DM Sans', sans-serif; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 2px; }
+
+    /* ── BURGER — direct body child ── */
+    .burger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+      position: fixed; top: 1.4rem; right: 2.5rem; z-index: 400;
+      transition: top 0.4s;
+    }
+    #navbar.scrolled ~ .burger { top: 0.9rem; }
+    .burger span { display: block; width: 24px; height: 2px; background: var(--white); transition: transform 0.3s, opacity 0.3s; }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── NAV LINKS — direct body child ── */
+    .nav-links {
+      position: fixed; top: 0; right: 2.5rem;
+      display: flex; flex-direction: row; gap: 2.2rem;
+      list-style: none; align-items: center;
+      padding: 1.4rem 0; z-index: 100;
+    }
+    #navbar.scrolled ~ .nav-links { padding: 0.9rem 0; }
+    .nav-links a {
+      color: rgba(255,255,255,0.82); text-decoration: none;
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--mint2); }
+    .nav-links .cta-nav {
+      background: var(--mint); color: var(--white) !important;
+      padding: 0.48rem 1.2rem; border-radius: 50px;
+      transition: background 0.2s !important;
+    }
+    .nav-links .cta-nav:hover { background: var(--mint2) !important; }
+
+    /* ── OVERLAY ── */
+    .nav-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.6); opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .nav-overlay.open { opacity: 1; pointer-events: all; }
+
+    /* ══ HERO ══ */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 55%, #1a4a44 100%);
+    }
+    .hero-circles {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .hero-circle {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,176,155,0.15) 0%, transparent 70%);
+    }
+    .hero-circle-1 { width: 60vw; height: 60vw; top: -15%; right: -10%; }
+    .hero-circle-2 { width: 40vw; height: 40vw; bottom: -5%; left: -8%; background: radial-gradient(circle, rgba(0,176,155,0.08) 0%, transparent 70%); }
+    .hero-content {
+      position: relative; z-index: 2; text-align: center;
+      padding: 8rem 1.5rem 4rem; max-width: 760px;
+    }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(0,176,155,0.2); border: 1px solid rgba(0,176,155,0.4);
+      border-radius: 50px; padding: 0.35rem 1rem; margin-bottom: 1.6rem;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(0,212,188,0.9);
+    }
+    .hero-pill::before { content: '😁'; font-size: 0.9rem; }
+    .hero-h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 8vw, 5.5rem); color: var(--white);
+      line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 1.2rem;
+    }
+    .hero-h1 em { font-style: italic; color: var(--mint2); }
+    .hero-sub {
+      font-size: 1rem; color: rgba(255,255,255,0.62); line-height: 1.75;
+      max-width: 500px; margin: 0 auto 2.2rem;
+    }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-mint {
+      background: var(--mint); color: var(--white);
+      padding: 0.9rem 2.2rem; border-radius: 50px;
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em;
+      text-decoration: none; transition: background 0.2s, transform 0.2s;
+    }
+    .btn-mint:hover { background: var(--mint2); transform: translateY(-2px); }
+    .btn-ghost {
+      border: 1px solid rgba(255,255,255,0.3); color: var(--white);
+      padding: 0.9rem 2.2rem; border-radius: 50px;
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.06em;
+      text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--mint2); color: var(--mint2); }
+    /* stats row */
+    .hero-stats {
+      display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+      margin-top: 3.5rem; padding-top: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--mint2); line-height: 1; }
+    .hero-stat-lbl { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 0.25rem; }
+
+    /* ══ SERVICES ══ */
+    #servicios { background: var(--offwhite); padding: 6rem 1.5rem; }
+    .services-inner { max-width: 1100px; margin: 0 auto; }
+    .services-header { text-align: center; margin-bottom: 3.5rem; }
+    .sec-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mint); margin-bottom: 0.5rem; }
+    .sec-title { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 2.8rem); color: var(--dark); line-height: 1.18; margin-bottom: 1rem; }
+    .sec-divider { width: 44px; height: 3px; background: var(--mint); margin: 0 auto 0; border-radius: 2px; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .service-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 16px;
+      padding: 2rem 1.8rem; transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
+    }
+    .service-card:hover { box-shadow: 0 8px 32px rgba(0,176,155,0.12); transform: translateY(-3px); border-color: var(--mint); }
+    .service-emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .service-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--dark); margin-bottom: 0.5rem; }
+    .service-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+    /* ══ REVIEWS ══ */
+    #opiniones { background: var(--dark); padding: 6rem 1.5rem; }
+    .reviews-inner { max-width: 1100px; margin: 0 auto; }
+    .reviews-header { text-align: center; margin-bottom: 3.5rem; }
+    .reviews-header .sec-label { color: var(--mint2); }
+    .reviews-header .sec-title { color: var(--white); }
+    /* google rating summary */
+    .rating-summary {
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+      margin-bottom: 3rem; flex-wrap: wrap;
+    }
+    .rating-big { font-family: 'DM Serif Display', serif; font-size: 4rem; color: var(--white); line-height: 1; }
+    .rating-right { display: flex; flex-direction: column; gap: 0.3rem; }
+    .stars { color: var(--yellow); font-size: 1.3rem; letter-spacing: 2px; }
+    .rating-source { font-size: 0.72rem; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase; }
+    /* cards */
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .review-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 1.8rem;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .review-card:hover { background: rgba(0,176,155,0.08); border-color: rgba(0,176,155,0.3); }
+    .review-stars { color: var(--yellow); font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 0.8rem; }
+    .review-text { font-size: 0.88rem; color: rgba(255,255,255,0.72); line-height: 1.75; margin-bottom: 1.2rem; font-style: italic; }
+    .review-author { display: flex; align-items: center; gap: 0.7rem; }
+    .review-avatar {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--mint);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 600; color: var(--white); flex-shrink: 0;
+    }
+    .review-name { font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.9); }
+    .review-platform { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+    .review-placeholder-note {
+      text-align: center; margin-top: 1.5rem;
+      font-size: 0.75rem; color: rgba(255,255,255,0.3); font-style: italic;
+    }
+
+    /* ══ ABOUT ══ */
+    #nosotros { background: var(--cream); padding: 6rem 1.5rem; }
+    .about-inner { max-width: 1100px; margin: 0 auto; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-visual {
+      background: linear-gradient(145deg, var(--dark) 0%, var(--dark2) 100%);
+      border-radius: 20px; padding: 3rem 2.5rem; min-height: 420px;
+      display: flex; flex-direction: column; justify-content: space-between; gap: 2rem;
+    }
+    .about-quote { font-family: 'DM Serif Display', serif; font-size: 1.5rem; font-style: italic; color: var(--white); line-height: 1.4; border-left: 3px solid var(--mint); padding-left: 1.2rem; }
+    .about-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .about-badge { background: rgba(0,176,155,0.15); border: 1px solid rgba(0,176,155,0.3); color: rgba(255,255,255,0.7); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 50px; }
+    .about-text p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+    .about-feats { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .about-feats li { display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; color: var(--text); }
+    .about-feats li::before { content: ''; width: 7px; height: 7px; background: var(--mint); border-radius: 50%; flex-shrink: 0; }
+
+    /* ══ CONTACT / MAP ══ */
+    #contacto { background: var(--white); padding: 6rem 1.5rem; }
+    .contact-inner { max-width: 1100px; margin: 0 auto; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start; }
+    .contact-details { display: flex; flex-direction: column; gap: 1.4rem; margin-bottom: 2rem; }
+    .contact-row { display: flex; gap: 1rem; align-items: flex-start; }
+    .contact-ico { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; background: var(--cream); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .contact-lbl { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mint); margin-bottom: 0.15rem; }
+    .contact-val { font-size: 0.9rem; color: var(--text); line-height: 1.6; }
+    .contact-val a { color: var(--dark); text-decoration: none; font-weight: 600; }
+    .contact-val a:hover { color: var(--mint); }
+    .cta-box { background: var(--dark); border-radius: 16px; padding: 2rem; }
+    .cta-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--white); margin-bottom: 0.4rem; }
+    .cta-box p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 1.3rem; }
+    .tel-btn { display: inline-flex; align-items: center; gap: 0.6rem; background: var(--mint); color: var(--white); padding: 0.8rem 1.8rem; border-radius: 50px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+    .tel-btn:hover { background: var(--mint2); }
+    .map-wrap { border-radius: 16px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,176,155,0.1); border: 1px solid var(--border); }
+    .map-wrap iframe { display: block; width: 100%; height: 420px; border: 0; }
+
+    /* ══ FOOTER ══ */
+    footer { background: var(--dark); padding: 2rem 2.5rem; text-align: center; font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+    footer a { color: var(--mint2); text-decoration: none; }
+
+    /* ═══════ MOBILE ═══════ */
+    @media (max-width: 900px) {
+      .burger { display: flex; }
+      .nav-overlay { display: block; }
+      .nav-links {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 300;
+        background: var(--dark);
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        gap: 2.2rem; list-style: none; padding: 0;
+        visibility: hidden; opacity: 0; pointer-events: none;
+        transition: opacity 0.28s ease, visibility 0.28s;
+      }
+      .nav-links.open { visibility: visible; opacity: 1; pointer-events: auto; }
+      .nav-links a { font-size: 1rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.85); opacity: 1; }
+      .nav-links a:hover { color: var(--mint2); }
+      .nav-links .cta-nav { background: var(--mint); padding: 0.75rem 2rem; border-radius: 50px; }
+
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-visual { min-height: auto; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      #servicios, #opiniones, #nosotros, #contacto { padding: 4.5rem 1.5rem; }
+    }
+    @media (max-width: 560px) {
+      #navbar { padding: 1.2rem 1.5rem; }
+      #navbar.scrolled { padding: 0.9rem 1.5rem; }
+      .burger { right: 1.5rem; top: 1.2rem; }
+      #navbar.scrolled ~ .burger { top: 0.9rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .hero-stats { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      <div class="logo-icon">😁</div>
+      <div>
+        Yes Smile
+        <span>Clínica Dental · Barcelona</span>
+      </div>
+    </a>
+  </nav>
+
+  <!-- BURGER — direct body child -->
+  <button class="burger" id="burger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- NAV LINKS — direct body child -->
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#opiniones">Opiniones</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#contacto" class="cta-nav">Cita</a></li>
+  </ul>
+
+  <!-- OVERLAY -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <!-- ══ HERO ══ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-circles">
+      <div class="hero-circle hero-circle-1"></div>
+      <div class="hero-circle hero-circle-2"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-pill">Clínica Dental · Barcelona</div>
+      <h1 class="hero-h1">La sonrisa que<br><em>siempre quisiste</em></h1>
+      <p class="hero-sub">En Yes Smile Barcelona combinamos tecnología avanzada con un trato cercano para que cada visita sea una experiencia positiva.</p>
+      <div class="hero-ctas">
+        <a href="#contacto" class="btn-mint">Pedir cita</a>
+        <a href="#servicios" class="btn-ghost">Ver tratamientos</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">5★</div>
+          <div class="hero-stat-lbl">Valoración Google</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">+100%</div>
+          <div class="hero-stat-lbl">Pacientes satisfechos</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">BCN</div>
+          <div class="hero-stat-lbl">Barcelona</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SERVICIOS ══ -->
+  <section id="servicios">
+    <div class="services-inner">
+      <div class="services-header">
+        <p class="sec-label">Tratamientos</p>
+        <h2 class="sec-title">Nuestros servicios</h2>
+        <div class="sec-divider"></div>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="service-emoji">🦷</span>
+          <h3>Implantes Dentales</h3>
+          <p>Recupera tu sonrisa con implantes de titanio de última generación. Solución permanente y natural para dientes perdidos.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-emoji">😁</span>
+          <h3>Ortodoncia</h3>
+          <p>Ortodoncia invisible y brackets modernos para adultos y niños. Alinea tu sonrisa de forma cómoda y discreta.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-emoji">✨</span>
+          <h3>Blanqueamiento</h3>
+          <p>Blanqueamiento dental profesional con resultados visibles desde la primera sesión. Sonrisa radiante garantizada.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-emoji">💎</span>
+          <h3>Estética Dental</h3>
+          <p>Carillas de porcelana y composite, diseño de sonrisa y tratamientos estéticos personalizados para cada paciente.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-emoji">🔬</span>
+          <h3>Periodoncia</h3>
+          <p>Diagnóstico y tratamiento de enfermedades de las encías. Prevención, curetaje y mantenimiento periodontal.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-emoji">🏥</span>
+          <h3>Odontología General</h3>
+          <p>Revisiones, empastes, endodoncias y extracciones. Todo lo necesario para mantener tu salud bucodental en perfecto estado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ OPINIONES ══ -->
+  <section id="opiniones">
+    <div class="reviews-inner">
+      <div class="reviews-header">
+        <p class="sec-label">Lo que dicen nuestros pacientes</p>
+        <h2 class="sec-title" style="color:var(--white);">Opiniones reales</h2>
+        <div class="sec-divider" style="margin:0 auto 2rem;"></div>
+      </div>
+      <div class="rating-summary">
+        <div class="rating-big">5.0</div>
+        <div class="rating-right">
+          <div class="stars">★★★★★</div>
+          <div class="rating-source">Google Reviews · Yes Smile Barcelona</div>
+        </div>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Excelente clínica dental. El trato del equipo es inmejorable, siempre atentos y muy profesionales. Me hicieron una ortodoncia invisible y el resultado ha sido espectacular. 100% recomendable."</p>
+          <div class="review-author">
+            <div class="review-avatar">M</div>
+            <div>
+              <div class="review-name">María G.</div>
+              <div class="review-platform">Google · ⚠️ Placeholder — sustituir por reseña real</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Llevaba años con miedo al dentista y en Yes Smile lo perdí completamente. Son muy cercanos, explican todo paso a paso y el resultado del blanqueamiento fue increíble. Volveré sin duda."</p>
+          <div class="review-author">
+            <div class="review-avatar">J</div>
+            <div>
+              <div class="review-name">Jordi P.</div>
+              <div class="review-platform">Google · ⚠️ Placeholder — sustituir por reseña real</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Me pusieron implantes y estoy encantada con el resultado. La clínica es moderna, limpia y el equipo muy profesional. Los precios son muy razonables para la calidad que ofrecen. Muy recomendada."</p>
+          <div class="review-author">
+            <div class="review-avatar">A</div>
+            <div>
+              <div class="review-name">Anna R.</div>
+              <div class="review-platform">Google · ⚠️ Placeholder — sustituir por reseña real</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="review-placeholder-note">⚠️ Las 3 reseñas son placeholders — reemplazar con las reseñas reales de Google antes de presentar al cliente.</p>
+    </div>
+  </section>
+
+  <!-- ══ NOSOTROS ══ -->
+  <section id="nosotros">
+    <div class="about-inner">
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="about-quote">"Tu sonrisa es nuestra mejor carta de presentación."</div>
+          <div class="about-badges">
+            <span class="about-badge">Barcelona</span>
+            <span class="about-badge">Tecnología avanzada</span>
+            <span class="about-badge">Trato cercano</span>
+            <span class="about-badge">Todas las edades</span>
+          </div>
+        </div>
+        <div>
+          <p class="sec-label">Quiénes somos</p>
+          <h2 class="sec-title">Yes Smile Barcelona</h2>
+          <div class="sec-divider" style="margin:0 0 1.5rem;"></div>
+          <div>
+            <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:1rem;">En Yes Smile Barcelona creemos que una sonrisa sana transforma la vida. Por eso ofrecemos tratamientos dentales de la más alta calidad en un entorno moderno, cómodo y totalmente orientado al paciente.</p>
+            <p style="font-size:0.95rem;color:var(--muted);line-height:1.8;margin-bottom:1rem;">Nuestro equipo de especialistas trabaja con la última tecnología dental para garantizar los mejores resultados, adaptándonos siempre a las necesidades y el presupuesto de cada persona.</p>
+          </div>
+          <ul class="about-feats">
+            <li>Equipo de especialistas certificados</li>
+            <li>Tecnología digital de diagnóstico y tratamiento</li>
+            <li>Primeras visitas de diagnóstico</li>
+            <li>Tratamientos para adultos, niños y mayores</li>
+            <li>Financiación flexible disponible</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACTO ══ -->
+  <section id="contacto">
+    <div class="contact-inner">
+      <div class="contact-grid">
+        <div>
+          <p class="sec-label">Encuéntranos</p>
+          <h2 class="sec-title">Pide tu cita</h2>
+          <div class="sec-divider" style="margin:0 0 2rem;"></div>
+          <div class="contact-details">
+            <div class="contact-row">
+              <div class="contact-ico">📍</div>
+              <div>
+                <div class="contact-lbl">Dirección</div>
+                <div class="contact-val">Barcelona<br><em style="font-size:0.78rem;color:var(--muted);">⚠️ Dirección exacta pendiente de confirmar</em></div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-ico">📞</div>
+              <div>
+                <div class="contact-lbl">Teléfono</div>
+                <div class="contact-val"><em style="color:var(--muted);font-size:0.85rem;">⚠️ Teléfono pendiente de confirmar</em></div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-ico">🕐</div>
+              <div>
+                <div class="contact-lbl">Horario</div>
+                <div class="contact-val"><em style="color:var(--muted);font-size:0.85rem;">⚠️ Horario pendiente de confirmar</em></div>
+              </div>
+            </div>
+          </div>
+          <div class="cta-box">
+            <h3>¿Listo para tu primera visita?</h3>
+            <p>Primera consulta de diagnóstico. Cuéntanos qué necesitas y te orientamos sin compromiso.</p>
+            <a href="#" class="tel-btn">📞 Pedir cita</a>
+          </div>
+        </div>
+        <div class="map-wrap">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1500!2d2.17!3d41.38!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4997d657f9101%3A0x7ba5e58d2da6bfac!2sYes%20Smile%20Barcelona!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Ubicación Yes Smile Barcelona">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2024 Yes Smile Barcelona · Clínica Dental · <a href="#">Instagram</a></p>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    const burger     = document.getElementById('burger');
+    const navLinks   = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+
+    function closeMenu() {
+      burger.classList.remove('open');
+      navLinks.classList.remove('open');
+      navOverlay.classList.remove('open');
+    }
+    burger.addEventListener('click', () => {
+      const opening = !navLinks.classList.contains('open');
+      if (opening) { burger.classList.add('open'); navLinks.classList.add('open'); navOverlay.classList.add('open'); }
+      else closeMenu();
+    });
+    navOverlay.addEventListener('click', closeMenu);
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault(); closeMenu();
+          const t = document.getElementById(href.slice(1));
+          if (t) setTimeout(() => t.scrollIntoView({ behavior: 'smooth' }), 50);
+        } else { closeMenu(); }
+      });
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+  </script>
+</body>
+</html>
